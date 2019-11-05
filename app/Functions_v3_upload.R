@@ -108,3 +108,10 @@ rice$Not.enough.data.for.recommendation <- rice$"Not enough data for recommendat
 #sweets
 sweetsummary <- readRDS("data/sweetsummary.rds")
 sweetmap <- readRDS("data/sweetmap.rds")
+
+
+# blast
+blastmerged <- readRDS("data/blastmerged.rds")
+blastafdsa <- readRDS("data/blastafdsa.rds")
+blast <- readRDS("data/blast.rds")
+genenames <- readRDS("data/genenames.rds")
