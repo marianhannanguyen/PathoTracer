@@ -29,9 +29,10 @@ ui <- dashboardPage(
                       width =300,
                                      sidebarMenu(
                                        id = "trouble",
-                                     menuItem("SNP-based populations", tabName = "SNP", icon = icon("circle-notch")),
-                                     menuItem("Sweet gene induction", icon = icon("leaf"), tabName = "Sweet", 
-                                                badgeLabel = "new", badgeColor = "green")),
+                                     menuItem("SNP-based Xoo populations", tabName = "SNP", icon = icon("circle-notch")),
+                                     menuItem("Sweet gene induction", icon = icon("leaf"), tabName = "Sweet"),
+                                     menuItem("M. grisea Avr gene frequency", icon = icon("bomb"), tabName = "blast", 
+                                     badgeLabel = "new", badgeColor = "green")),
                                      #uiOutput('CountrySelectionUI'),
                                      conditionalPanel(
                                       "input.trouble == 'SNP' ",
@@ -44,6 +45,10 @@ ui <- dashboardPage(
                                        "input.trouble == 'Sweet' ",
                                        fluidRow()
                                      ),
+                                     conditionalPanel(
+                                     "input.trouble == 'blast' ",
+                                     fluidRow()
+                                      ),
                                      uiOutput('YearSelection'),
                                     # fluidRow( 
                                      #   column(8, offset =1, 
@@ -68,17 +73,17 @@ ui <- dashboardPage(
                     ),
                     dashboardBody( 
                       tags$script("Shiny.addCustomMessageHandler('resetValue', function(variableName) {Shiny.onInputChange(variableName, null);});"),
-                  #    tags$script(HTML("$('body').addClass('fixed');")),
+                      tags$script(HTML("$('body').addClass('fixed');")),
                       tags$style(
                         type = "text/css", 
-                                 "#map {height: calc(90vh - 53px) !important;}"),
+                                 "#map {height: calc(98vh - 70px) !important;}"),
                        #  "html, body {width:100%;height:80% !important;}"),
                                   tags$head(
                                       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
                                   tabItems(
                                     tabItem(tabName = "SNP",
                                          #   h5("SNP-based populations"),
-                                            fluidRow(leafletOutput("MapPlot1",width="100%",height="680"))
+                                            fillPage(leafletOutput("MapPlot1",width="100%",height="630"))
                                             #,
                                             #conditionalPanel(
                                             #  condition = "is.null(click$id) == 'FALSE'",
@@ -98,8 +103,11 @@ ui <- dashboardPage(
                                     tabItem(tabName = "Sweet",
                                             h5("1972 - 2012 data"),
                                           #  h5("SWEET Gene Induction"),
-                                            fluidRow(leafletOutput("MapPlot2",width="100%",height="680")))
-                                    ),
+                                            fillPage(leafletOutput("MapPlot2",width="100%",height="630"))),
+                                      tabItem(tabName = "blast",
+                                       h5("1980 - 2015 data"),
+                                      fillPage(leafletOutput("MapPlot3",width="100%",height="630"))))
+                                       ,
                                     fluidRow()
                                   )
                                   )#dashboardBody closing parenthesis
@@ -233,6 +241,9 @@ observe({
         leaflet()%>%
         addProviderTiles("Stamen.TerrainBackground")%>%
         addProviderTiles("CartoDB.PositronOnlyLabels")%>%
+        setView(lng = mean(allmerged@bbox[1,]), 
+                lat = mean(allmerged@bbox[2,]), 
+                zoom = 4.49)%>%
         addPolygons(data= allmerged,
                     layerId = ~NAME_1,# hehehehe this might save you later
                     popup = paste0(
@@ -608,14 +619,90 @@ observe({
     )#observeEvent CountrySelection
     
   }# trouble == SNP
+  if(input$trouble == "blast"){  ###BLAST BLAST BLAST
+    shinyjs::reset("click")
+    shinyjs::reset("selectedProv")
+    shinyjs::reset("selectedProvName") 
+    shinyjs::reset("selectedComposition") 
+    shinyjs::reset("Provider") 
+    shinyjs::reset("CompositionPlot") 
+    shinyjs::reset("hanna1") 
+    shinyjs::reset("hanna2") 
+    shinyjs::reset("selectedCompositiongenes") 
+    shinyjs::reset("click$id")
+
+    
+  
+    output$hanna1 <- renderUI({HTML(paste0("(Click on a location)"))})
+    observeEvent(input$MapPlot3_shape_click,{
+      click <- input$MapPlot3_shape_click
+      print(click$lat)
+      if(is.null(click$id))
+        return()
+      print(click$id)
+      selectedProv <- blastmerged %>% dplyr::filter(NAME_1 == click$id)
+      selectedProvName <- click$id
+      selectedComposition <- as.data.frame(droplevels(subset(blastafdsa, as.character(NAME_1) == selectedProvName)))
+      str(selectedComposition)
+      selectedComposition
+      output$hanna1 <- renderUI({
+        if(is.null(click$id)){
+          HTML(paste0("(Click on a location)"))
+        } else{
+          HTML(paste0(
+            "<strong>", selectedProv$NAME_1,"</strong>" , "<strong>, </strong>", 
+            "<strong>", selectedProv$Country,"</strong>", "<br/>", "<br/>",
+            "<strong>Predominant avr gene(s): </strong>", "<br/>",
+            gsub('"', "",gsub("^c\\(|\\)$|percent.", "", 
+                              selectedProv$Genes)),
+            "<br/>",  "<br/>"
+            
+          ))
+        }
+      }) # hanna1 
+      output$hanna2 <- NULL
+      output$CompositionPlot <- renderPlot(
+        if(is.null(selectedComposition)){
+          return()
+        }else{
+          ggplot(reshape::melt(selectedComposition, id =c("NAME_1", "Count")), 
+                 aes(x = variable, y = value ,  fill = value))+
+            geom_bar (stat = "identity")+
+            theme_set( theme_minimal()+theme(legend.position = "top", legend.title = element_blank(), 
+                                             axis.text.x = element_text(angle = 0, hjust =1) ))+
+            scale_x_discrete(labels = genenames)+
+            labs(x = "avr gene", y = "Percent of strains", 
+                 title = paste0( selectedProv$NAME_1, ", ", selectedProv$Country),
+                 subtitle = paste("n = ", as.character(sum(selectedComposition$Count)), 
+                                  sep = "", collapse = "") ) +
+            theme(plot.title = element_text(hjust = -0.9, size = 12),
+                  plot.subtitle = element_text(hjust = -0.3, size = 11),
+                  legend.position = c(0.7, 1.1),
+                  legend.direction = "horizontal")+
+            scale_fill_gradient(low = "green", high = "red")+
+            coord_flip()
+        }
+      )
     })
+    observeEvent(input$MapPlot3_click, { print("map clicked") 
+      print(input$MapPlot3_click)
+      output$CountrySelection<- NULL
+      output$hanna1 <- renderUI({HTML(paste0("(Click a location)"))})
+      output$hanna2 <- NULL
+      output$CompositionPlot <- NULL
+    })
+  }# end of if statement for blast
+    }) 
+###################################################################################################
+##############################################OBSERVE##############################################
+##############################################OBSERVE##############################################
+###################################################################################################
     output$MapPlot2 <- renderLeaflet({
       simple_philippines %>%
         leaflet()%>% 
         setView(lng = mean(sweetmap@bbox[1,]), 
                  lat = mean(sweetmap@bbox[2,]), 
                 zoom = 6.5)%>%
-          
         # addProviderTiles("Stamen.TerrainBackground")%>%
         addProviderTiles("CartoDB.Positron")%>%
         addPolygons(data= sweetmap,
@@ -657,6 +744,53 @@ observe({
           opacity = 0.9)%>%
         addResetMapButton()
     })
+output$MapPlot3 <- renderLeaflet({
+  pal2 <- leaflet::colorNumeric(
+    palette = viridis::viridis_pal(begin = 0,  option = "D", alpha = 0.72)(5),
+    domain = unique(blast$Map.Display)
+  )
+  simple_philippines %>%
+    leaflet()%>%
+    addProviderTiles("Stamen.TerrainBackground")%>%
+    addProviderTiles("CartoDB.PositronOnlyLabels")%>%
+    setView(lng = mean(blastmerged@bbox[1,]), 
+            lat = mean(blastmerged@bbox[2,]), 
+            zoom = 5.2)%>%
+    addPolygons(data= blastmerged,
+                layerId = ~NAME_1,
+                popup = paste0(
+                  "<strong>", blastmerged$NAME_1,"</strong>" , "<strong>, </strong>", 
+                  "<strong>", blastmerged$Country,"</strong>"),
+                fillColor = ~pal2(blastmerged$Map.Display),
+                fillOpacity = 1,
+                weight = 0.8,
+                stroke = TRUE,
+                color = "black",
+                opacity = 0.9,
+                #         label = paste0(
+                #            "<strong>", blastmerged$NAME_1,"</strong>" , "<strong>, </strong>", 
+                #           "<strong>", blastmerged$Country,"</strong>"),
+                smoothFactor = 0.2,
+                highlight = highlightOptions(
+                  weight = 0.7,
+                  color = "gray",
+                  fillOpacity = 0.8,
+                  bringToFront =TRUE),
+                labelOptions = labelOptions(
+                  style = list("font-weight" = "normal",
+                               padding = "3 px 8 px"),
+                  textsize = "15 px",
+                  direction = "auto")) %>% 
+    addLegend(pal = pal2, 
+              values = blastmerged$Map.Display,
+              position = "topright",
+              bins = 2,
+              labFormat = labelFormat(digits = 1),
+              title = "No. of dominant (>= 80%) <br> avr genes ", 
+              opacity = 0.9)%>%
+    addResetMapButton()
+  
+}) #renderleaflet
     session$onSessionEnded(stopApp)
 }
 
