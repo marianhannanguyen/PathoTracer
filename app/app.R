@@ -31,7 +31,7 @@ ui <- dashboardPage(
                                        id = "trouble",
                                      menuItem("SNP-based Xoo populations", tabName = "SNP", icon = icon("circle-notch")),
                                      menuItem("Sweet gene induction", icon = icon("leaf"), tabName = "Sweet"),
-                                     menuItem("M. grisea Avr gene frequency", icon = icon("bomb"), tabName = "blast", 
+                                     menuItem("M. grisea Avr gene frequency ", icon = icon("bomb"), tabName = "blast", 
                                      badgeLabel = "new", badgeColor = "green")),
                                      #uiOutput('CountrySelectionUI'),
                                      conditionalPanel(
@@ -328,9 +328,9 @@ observe({
           HTML(paste0(
             "<strong>Strain provider(s): </strong>", "<br/>",Provider,
             "<br/>",
-            "<strong>Gene recommendation: </strong>", "<br/>",
+            "<strong>Gene recommendation</strong>", "<strong> (under validation): </strong>", "<br/>",
             as.character(Genes),"<br/>",
-            "<br/>","<strong>Variety/Line recommendation(s): </strong>", "<br/>",
+            "<br/>","<strong>Variety/Line recommendation(s) (under validation): </strong>", "<br/>",
             gsub('"', "",gsub("^c\\(|\\)$", "", 
                               rice %>% dplyr::select(one_of(as.character(Genes)))))
           ))
@@ -369,9 +369,9 @@ observe({
           HTML(paste0(
             "<strong>Strain provider(s): </strong>", "<br/>",Provider,
             "<br/>",
-            "<strong>Gene recommendation: </strong>", "<br/>",
+            "<strong>Gene recommendation</strong>", "<strong> (under validation): </strong>", "<br/>",
             as.character(Genes),"<br/>",
-            "<br/>","<strong>Variety/Line recommendation(s): </strong>", "<br/>",
+            "<br/>","<strong>Variety/Line recommendation(s) (under validation): </strong>", "<br/>",
             gsub('"', "",gsub("^c\\(|\\)$", "", 
                               rice %>% dplyr::select(one_of(as.character(Genes)))))
             #subset(rice, select = selectedProv$Gene.recommendation)
@@ -439,9 +439,9 @@ observe({
             HTML(paste0(
               "<strong>Strain provider(s): </strong>", "<br/>",Provider,
               "<br/>",
-              "<strong>Gene recommendation: </strong>", "<br/>",
+              "<strong>Gene recommendation</strong>", "<strong> (under validation): </strong>", "<br/>",
               as.character(Genes),"<br/>",
-              "<br/>","<strong>Variety/Line recommendation(s): </strong>", "<br/>",
+              "<br/>","<strong>Variety/Line recommendation(s) (under validation): </strong>", "<br/>",
               gsub('"', "",gsub("^c\\(|\\)$", "", 
                                 rice %>% dplyr::select(one_of(as.character(Genes)))))
               #subset(rice, select = selectedProv$Gene.recommendation)
@@ -555,9 +555,9 @@ observe({
           HTML(paste0(
             "<strong>Strain provider(s): </strong>", "<br/>",Provider,
             "<br/>",
-            "<strong>Gene recommendation: </strong>", "<br/>",
+            "<strong>Gene recommendation</strong>", "<strong> (under validation): </strong>", "<br/>",
             as.character(Genes),"<br/>",
-            "<br/>","<strong>Variety/Line recommendation(s): </strong>", "<br/>",
+            "<br/>","<strong>Variety/Line recommendation(s) (under validation): </strong>", "<br/>",
             gsub('"', "",gsub("^c\\(|\\)$", "", 
                               rice %>% dplyr::select(one_of(as.character(Genes)))))
           ))
