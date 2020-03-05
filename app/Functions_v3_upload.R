@@ -23,10 +23,10 @@ simple_pakistan$VARNAME_2
 simple_pakistan$NL_NAME_2 <- NULL
 simple_pakistan$NAME_2 <- NULL
 simple_indonesia <- readRDS("maps/simple_indonesia.rds")
-#simple_india <- readRDS("maps/India.rds")
+simple_india <- readRDS("maps/India.rds")
 simple_myanmar <-readRDS("maps/Myanmar.rds")
 world <- raster::bind(simple_cambodia, simple_vietnam, simple_pakistan, simple_philippines, simple_indonesia, 
-                      # simple_india, 
+                      simple_india, 
                       simple_myanmar)
 
 # Gene recommendations
