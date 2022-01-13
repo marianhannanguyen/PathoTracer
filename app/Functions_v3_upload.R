@@ -8,35 +8,44 @@ Mode <- function(x){
   ux[which.max(tabulate(match(x,ux)))]
 }
 
+#radioChoices <- read.csv("data/pathogenSelect_trouble.csv", header = T,  na.strings =   "")
+#simple_cambodia <- readRDS("maps/simple_cambodia.rds")
+#simple_vietnam <- readRDS("maps/simple_vietnam.rds")
+#simple_pakistan <- readRDS("maps/simple_pakistan.rds")
+#simple_pakistan$NAME_1 <- NULL
+#simple_pakistan$NAME_1 <- simple_pakistan$NAME_2
+#simple_pakistan$GID_1 <- simple_pakistan$GID_2
+#simple_pakistan$NL_NAME_1 <- simple_pakistan$NL_NAME_2
+#simple_pakistan$GID_2 <- NULL
+#simple_pakistan$VARNAME_2
+#simple_pakistan$NL_NAME_2 <- NULL
+#simple_pakistan$NAME_2 <- NULL
+#simple_indonesia <- readRDS("maps/simple_indonesia.rds")
+#simple_india <- readRDS("maps/simple_india.rds")
+#simple_myanmar <- readRDS("maps/simple_myanmar.rds")
 
-
-simple_cambodia <- readRDS("maps/simple_cambodia.rds")
-simple_vietnam <- readRDS("maps/simple_vietnam.rds")
 simple_philippines <- readRDS("maps/simple_philippines.rds")
-simple_pakistan <- readRDS("maps/simple_pakistan.rds")
-simple_pakistan$NAME_1 <- NULL
-simple_pakistan$NAME_1 <- simple_pakistan$NAME_2
-simple_pakistan$GID_1 <- simple_pakistan$GID_2
-simple_pakistan$NL_NAME_1 <- simple_pakistan$NL_NAME_2
-simple_pakistan$GID_2 <- NULL
-simple_pakistan$VARNAME_2
-simple_pakistan$NL_NAME_2 <- NULL
-simple_pakistan$NAME_2 <- NULL
-simple_indonesia <- readRDS("maps/simple_indonesia.rds")
-simple_india <- readRDS("maps/India.rds")
-simple_myanmar <-readRDS("maps/Myanmar.rds")
-world <- raster::bind(simple_cambodia, simple_vietnam, simple_pakistan, simple_philippines, simple_indonesia, 
-                      simple_india, 
-                      simple_myanmar)
-
+#world <- raster::bind(simple_cambodia, simple_vietnam, simple_pakistan, simple_philippines, simple_indonesia, 
+#                      simple_india, 
+#                      simple_myanmar)
+#saveRDS(world,"maps/world.rds")
+world <- readRDS("maps/world.rds")
 # Gene recommendations
+# geneRec <- readRDS("data/geneRec_letterPop.rds")
 geneRec <- readRDS("data/geneRec.rds")
+geneRec$Map.Display <- gsub('population ID', 'popID', geneRec$Map.Display)
 # misc
+#forChoices <- readRDS("data/forChoices_letterPop.rds")
 forChoices <- readRDS("data/forChoices.rds")
+forChoices <- c("All data", forChoices[1:7])
+# Inst <- readRDS("data/Inst_letterPop.rds")
 Inst <- readRDS("data/Inst.rds")
 # Strains
 strains <- readRDS("data/strains.rds")
 asfda <- readRDS("data/asfda.rds")
+
+# strains <- readRDS("data/strains_letterPop.rds")
+# asfda <- readRDS("data/asfda_letterPop.RDS")
 
 #dealing with the colors
 
@@ -50,7 +59,7 @@ mappedPops <- mappedPops %>%
            case_when(
              Map.Display == "others" ~ "others",
              Map.Display == "uncharacterized" ~ "uncharacterized",
-             Map.Display != "others" & Map.Display!= "uncharacterized" ~ paste("population ID", Map.Display)
+             Map.Display != "others" & Map.Display!= "uncharacterized" ~ paste("popID", Map.Display)
            ))
 mappedPops$Map.Display <- NULL
 mappedPops$Map.Display <- mappedPops$placeholder
@@ -96,15 +105,16 @@ asfda$Color <- pull(dplyr::left_join(x = asfda[,"Map.Display"],
 
 #str(asfda$Color)
 
-
 # allmerged
-allmerged <- tigris::geo_join(world, dplyr::select(strains, Country, NAME_1,  Map.Display), by = "NAME_1", how = "inner")
-
-rice <- read.csv("ricerecommendation.csv", header = T, stringsAsFactors = F,
+#allmerged <- tigris::geo_join(world, dplyr::select(strains, Country, NAME_1,  Map.Display), by = "NAME_1", how = "inner")
+#saveRDS(allmerged, "data/allmerged.rds")
+# allmerged <- readRDS("data/allmerged_letterPop.rds")
+allmerged <- readRDS("data/allmerged.rds")
+rice <- read.csv("data/ricerecommendation.csv", header = T, stringsAsFactors = F,
                  na.strings = "")
 rice$Not.enough.data.for.recommendation <- rice$"Not enough data for recommendation"
-
-
+ricedatabase <- read.csv("data/Rice database.csv", header = T, stringsAsFactors = F, na.strings = "")
+sweetmutants <-read.csv("data/SWEET mutant lines.csv", header = T, stringsAsFactors = F, na.strings = "")
 #sweets
 sweetsummary <- readRDS("data/sweetsummary.rds")
 sweetmap <- readRDS("data/sweetmap.rds")
@@ -115,3 +125,6 @@ blastmerged <- readRDS("data/blastmerged.rds")
 blastafdsa <- readRDS("data/blastafdsa.rds")
 blast <- readRDS("data/blast.rds")
 genenames <- readRDS("data/genenames.rds")
+
+#citations
+package_citations <- readRDS("data/package_citations.rds")
