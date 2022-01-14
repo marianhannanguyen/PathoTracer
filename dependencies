@@ -1,0 +1,24 @@
+## Package citations
+1.Andras Sali and Dean Attali (2020). shinycssloaders: Add Loading Animations to a 'shiny' Output While It's Recalculating. R package version 1.0.0. https://CRAN.R-project.org/package=shinycssloaders
+2.Bhaskar Karambelkar and Barret Schloerke (2018). leaflet.extras: Extra Functionality for 'leaflet' Package. R package version 1.0.0. https://CRAN.R-project.org/package=leaflet.extras
+3.Dean Attali (2020). shinyjs: Easily Improve the User Experience of Your Shiny Apps in Seconds. R package version 2.0.0. https://CRAN.R-project.org/package=shinyjs
+4."H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016."
+5.Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package version 1.1.1. https://CRAN.R-project.org/package=scales
+6."Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2021). dplyr: A Grammar of Data Manipulation. R package version 1.0.7. https://CRAN.R-project.org/package=dplyr"
+7.Henrik Bengtsson (2021). matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors). R package version 0.59.0. https://CRAN.R-project.org/package=matrixStats
+8."Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2021). leaflet: Create Interactive Web Maps with the JavaScript 'Leaflet' Library. R package version 2.0.4.1. https://CRAN.R-project.org/package=leaflet"
+9."Joe Cheng, Carson Sievert, Winston Chang, Yihui Xie and Jeff Allen (2021). htmltools: Tools for HTML. R package version 0.5.1.1. https://CRAN.R-project.org/package=htmltools"
+10.Karthik Ram and Hadley Wickham (2018). wesanderson: A Wes Anderson Palette Generator. R package version 0.3.6. https://CRAN.R-project.org/package=wesanderson
+11.Kyle Walker (2021). tigris: Load Census TIGER/Line Shapefiles. R package version 1.4.1. https://CRAN.R-project.org/package=tigris
+12."Makowski, D., Ben-Shachar, M.S., Patil, I. & Lüdecke, D. (2020). Automated Results Reporting as a Practical Tool to Improve Reproducibility and Methodological Best Practices Adoption. CRAN. Available from https://github.com/easystats/report. doi: ."
+13.Michael D. Sumner (2020). spdplyr: Data Manipulation Verbs for the Spatial Classes. R package version 0.4.0. https://CRAN.R-project.org/package=spdplyr
+14."Pebesma, E.J., R.S. Bivand, 2005. Classes and methods for spatial data in R. R News 5 (2), https://cran.r-project.org/doc/Rnews/."
+15."R Core Team (2021). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL https://www.R-project.org/."
+16."Roger Bivand, Tim Keitt and Barry Rowlingson (2021). rgdal: Bindings for the 'Geospatial' Data Abstraction Library. R package version 1.5-23. https://CRAN.R-project.org/package=rgdal"
+17."Simon Garnier, Noam Ross, Robert Rudis, Antonio P. Camargo, Marco Sciaini, and Cedric Scherer (2021). Rvision - Colorblind-Friendly Color Maps for R. R package version 0.4.0."
+18."Simon Garnier, Noam Ross, Robert Rudis, Antonio P. Camargo, Marco Sciaini, and Cedric Scherer (2021). Rvision - Colorblind-Friendly Color Maps for R. R package version 0.6.1."
+19."Tim Appelhans and Florian Detsch (2021). leafpop: Include Tables, Images and Graphs in Leaflet Pop-Ups. R package version 0.1.0. https://CRAN.R-project.org/package=leafpop"
+20."Victor Perrier, Fanny Meyer and David Granjon (2021). shinyWidgets: Custom Inputs Widgets for Shiny. R package version 0.6.0. https://CRAN.R-project.org/package=shinyWidgets"
+21.Winston Chang (2021). shinythemes: Themes for Shiny. R package version 1.2.0. https://CRAN.R-project.org/package=shinythemes
+22.Winston Chang and Barbara Borges Ribeiro (2018). shinydashboard: Create Dashboards with 'Shiny'. R package version 0.7.1. https://CRAN.R-project.org/package=shinydashboard
+23."Winston Chang, Joe Cheng, JJ Allaire, Carson Sievert, Barret Schloerke, Yihui Xie, Jeff Allen, Jonathan McPherson, Alan Dipert and Barbara Borges (2021). shiny: Web Application Framework for R. R package version 1.6.0. https://CRAN.R-project.org/package=shiny"
