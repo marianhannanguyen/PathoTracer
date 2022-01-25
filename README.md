@@ -1,6 +1,7 @@
 # PathoTracer
 
 This repository contains the code for PathoTracer.
+
 [![DOI](https://zenodo.org/badge/183615585.svg)](https://zenodo.org/badge/latestdoi183615585)
 
 For more information, visit our website:
